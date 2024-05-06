@@ -9,7 +9,7 @@ module.exports = {
             
         } catch (err) {
             res.status(500).json(err);
-            console.log("you are hitting an error")
+            console.log(err)
         }
     },
 
@@ -35,7 +35,7 @@ module.exports = {
 
     async deleteUser(req, res) {
         try{
-            const user = await User.findOneAndRemove({ _id:req.params.userId });
+            const user = await User.findOneAndDelete({ _id:req.params.userId });
             res.json(user);
             return 1
         }catch (err) {
@@ -47,7 +47,7 @@ module.exports = {
     async updateUser(req, res) {
         try{
             const user = await User.findOneAndUpdate(
-                {_id: req.params.studentId },
+                {_id: req.params.userId },
                 { username: req.body.username},
                 { new: true }
             )

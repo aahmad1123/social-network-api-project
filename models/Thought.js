@@ -33,7 +33,7 @@ const thoughtSchema = new Schema (
 )
 
 thoughtSchema.virtual('reactionCount').get(function (){
-    return thoughtSchema.reactions.length
+    return this.reactions.length
 })
 //if thoughtSchema.reactions.length doesn't work, change thoughtSchema to this
 
