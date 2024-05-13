@@ -16,7 +16,7 @@ module.exports = {
 
     async getSingleThought(req, res) {
         try{
-            const thought = await Thought.findOne({ thoughtId: req.params.thoughtId })
+            const thought = await Thought.findOne({ _id: req.params.thoughtId })
             console.log(thought)
             res.json(thought)
 
@@ -79,9 +79,9 @@ module.exports = {
     
     async addReaction(req, res) {
         try{
-            const reaction = await Thought.findOneandUpdate(
-                { thoughtId: req.params.thoughtId },
-                { $addToSet: req.body},
+            const reaction = await Thought.findByIdAndUpdate(
+                { _id: req.params.thoughtId },
+                { $addToSet: {reactions: req.body} },
                 { new: true}
             )
             res.json(reaction)
@@ -89,5 +89,21 @@ module.exports = {
             console.log(err);
             return res.status(500).json(err);
     }
+    },
+
+    async deleteReaction(req, res) {
+        try{
+            const reaction = await Thought.findByIdAndUpdate(
+                {_id: req.params.thoughtId},
+                {$pull: { reactions: req.params.reactionId }},
+                {new: true}
+            ).populate("reactions")
+            console.log(reaction)
+            res.json(reaction)
+
+        }catch (err){
+            console.log(err);
+            return res.status(500).json(err);
+        }
     }
 }
