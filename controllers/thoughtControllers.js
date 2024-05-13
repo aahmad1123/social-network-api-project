@@ -50,7 +50,7 @@ module.exports = {
 
     async deleteThought(req, res) {
         try{
-            const thought = await Thought.findOneAndDelete({ thoughtId:req.params.thoughtId });
+            const thought = await Thought.findOneAndDelete({ _id:req.params.thoughtId });
             res.json(thought);
             return 1
         }catch (err) {
@@ -62,7 +62,7 @@ module.exports = {
     async updateThought(req, res) {
         try{
             const thought = await Thought.findOneAndUpdate(
-                { thoughtId: req.params.thoughtId },
+                { _id: req.params.thoughtId },
                 { thoughtText: req.body.thoughtText},
                 { new: true }
             )
